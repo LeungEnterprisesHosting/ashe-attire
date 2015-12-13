@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ase Attire - Contact Us</title>
+    <meta name="description" content="Ase Attire is a Philly-based clothing company trying to make a name for ourselves. We create classy clothing for a discriminating clientele.">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58888500-4', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+  <body>
+    <div id="sidebar-button">
+      <i class="fa fa-bars"></i>
+    </div>
+    <div id="sidebar">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./store.php">Store</a></li>
+        <li><a href="./about.html">About</a></li>
+        <li class="active"><a href="#">Contact</a></li>
+        <li id="close"><a href="#"><i class="fa fa-close"></i></a></li>
+      </ul>
+    </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid text-center">
+        <a href="./index.html" id="navbar-header"><span id="ase">Ase</span><span id="attire">Attire</span> &#8984;</a>
+      </div>
+    </nav>
+    <div id="overlay"></div>
+    <div id="sidebar-push">
+      <div class="jumbotron" id="contact1">
+        <div class="container">
+          <h1 class="text-center">CONTACT</h1>
+            <form method="post" action="./contact.php" class="form-horizontal">
+              <div class="col-xs-6 col-xs-offset-3">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Rich" required>
+                  <label for="lastName">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Homie">
+                  <label for="email">Email Address</label>
+                  <input type="email" class="form-control" name="email" placeholder="rich_homie@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea class="form-control" rows="5" id="message" name="message" placeholder="Can I get some Ase Attire?" required></textarea>
+                </div>
+                <button class="btn btn-lg btn-success" type="submit">Send Message</button>
+              </div>
+            </form>
+        </div>
+      </div>
+      <div class="jumbotron footer" id="contactFooter">
+        <div class="container text-center">
+          <div class="col-md-12">
+            <a class="btn btn-default btn-circle instagram" href="https://instagram.com/ase_attire_co/"><i class="fa fa-instagram"></i></a>
+            <a class="btn btn-default btn-circle facebook" href="#"><i class="fa fa-facebook"></i></a>
+            <a class="btn btn-default btn-circle twitter" href="https://twitter.com/AseAttire"><i class="fa fa-twitter"></i></a><br><br>
+          </div>
+          <div class="col-md-12">
+            <span class="leungEnterprisesMsg">Another classy design by <a href="http://leung.enterprises/" class="leungEnterprises">Leung Enterprises</a></span>
+          </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+    <?php
+      $to = "Ase Attire Contact <contact@aseattire.com>";
+      $subject = "Ase Attire Inquiry";
+      $txt = "Here is a copy of the message you sent to us.  We'll get back to you shortly! \n------------------------------\n\n" . $_POST["message"] . "\n------------------------------\n\nSent from: " . $_SERVER['REMOTE_ADDR'] . " on " . $_SERVER['HTTP_USER_AGENT'];
+      $headers = "From: Ase Attire Contact <contact@aseattire.com>" . "\r\n";
+      $headers .= 'Cc: ' . $_POST["firstName"] . ' ' . $_POST["lastName"] . ' <' . $_POST["email"] . '>';
+
+      if (!empty($_POST["firstName"])) {
+        if(@mail($to, $subject, $txt, $headers)) {
+          $success = "Sent Successfully!";
+        } else {
+          $success = "Not Able to Send";
+        }
+      } else {
+        $success = "No data";
+      }
+    ?>
+        <div class="modal fade" id="contactModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-close"></i></button>
+                <h4 class="modal-title" id="contactModalLabel"><?php echo $success; ?></h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  <?php
+                    if ($success === "Sent Successfully!") {
+                      echo "Your message was sent successfully. Thank you for contacting us, we will get back to you shortly.";
+                    } else if ($success === "Not Able to Send") {
+                      echo "We were not able to send your message.  Please try again.";
+                    } else {
+                      echo "No data received.";
+                    }
+                  ?>
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          var success = "<?php echo $success; ?>";
+          if (success !== "No data") {
+            $('#contactModal').modal('show');
+          }
+        </script>
+  </body>
+</html>
